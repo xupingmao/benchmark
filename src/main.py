@@ -1,10 +1,11 @@
 # -*- coding:utf-8 -*-
 # @author xupingmao
 # @since 2022/01/26 10:18:40
-# @modified 2022/01/26 16:19:15
+# @modified 2022/01/26 17:08:00
 # @filename main.py
 import logging
 import os
+import sys
 
 # 配置日志模块
 logging.basicConfig(level=logging.DEBUG,
@@ -51,6 +52,7 @@ def run_benchmark(dirname):
         if cmd is None:
             continue
 
+        print("\n")
         logging.info("Command: %s", cmd)
         logging.info("-" * 50)
         os.system(cmd)
@@ -60,13 +62,21 @@ def run_clean(dirname):
 
 def main(dirname):
     os.system("mkdir -p build")
+    
+    case_name = None
+    if len(sys.argv) == 2:
+        case_name = sys.argv[1]
+
     for fname in os.listdir(dirname):
+        if case_name != None and case_name != fname:
+            continue
+
         fpath = os.path.join(dirname, fname)
         if os.path.isdir(fpath):
             # 部分脚本需要先安装(比如cython)
             run_setup(fpath)
 
-            print("\n\n")
+            print("=" * 50)
             # 001_sum
             run_benchmark(fpath)
             # 删除中间文件
