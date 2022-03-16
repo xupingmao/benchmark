@@ -1,6 +1,9 @@
 build/
+tmp/
+
 *.so
 *.class
+*.pyc
 
 # cython temp files
 pyx_*.c
