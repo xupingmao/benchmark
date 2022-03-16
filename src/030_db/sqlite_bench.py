@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 # @author mark
 # @since 2022/03/16 21:45:12
-# @modified 2022/03/16 22:36:29
+# @modified 2022/03/16 22:55:58
 # @filename sqlite_bench.py
 import sqlite3
 import os
@@ -53,7 +53,8 @@ def test_insert(times, key_len = 20, value_len = 1024):
         db_execute(db, sql, key, value)
 
     cost_time = time.time() - start_time
-    print("Test insert (%d) times, cost (%.2f)ms" % (times, cost_time*1000))
+    qps = times / cost_time
+    print("Test insert (%d) times, cost (%.2f)ms, qps (%.2f)" % (times, cost_time*1000, qps))
     
     db.close()
 
@@ -61,15 +62,16 @@ def test_insert(times, key_len = 20, value_len = 1024):
 @mem_deco("Test query")
 def test_query(times, key_len = 20):
     db = init_db()
-    start_time = time.time()
 
+    start_time = time.time()
     for i in range(times):
         key = rand_str(key_len)
         sql = "SELECT * FROM kv_store WHERE key = ?;"
         db_execute(db, sql, key)
 
     cost_time = time.time() - start_time
-    print("Test query (%d) times, cost (%.2f)ms" % (times, cost_time*1000))
+    qps = times / cost_time
+    print("Test query (%d) times, cost (%.2f)ms, qps (%.2f)" % (times, cost_time*1000, qps))
     
     db.close()
 
