@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 # @author xupingmao
 # @since 2022/01/26 10:18:40
-# @modified 2022/02/06 12:11:53
+# @modified 2022/03/16 22:43:48
 # @filename main.py
 import logging
 import os
@@ -28,6 +28,8 @@ def run_setup(dirname):
 def run_benchmark(dirname):
     for fname in sorted(os.listdir(dirname)):
         fpath = os.path.join(dirname, fname)
+        fpath = os.path.abspath(fpath)
+
         cmd = None
         if fname.endswith("setup.py"):
             continue
@@ -41,7 +43,7 @@ def run_benchmark(dirname):
         if fname.endswith(".cpp"):
             cmd = "g++ -O2 %r -o build/cpp.out && ./build/cpp.out" % fpath
         if fname.endswith(".py"):
-            cmd = "python3 %r" % fpath
+            cmd = "python3 %s" % fpath
         if fname.endswith(".lua"):
             cmd = "lua %r" % fpath
         if fname.endswith(".go"):
@@ -61,11 +63,15 @@ def run_clean(dirname):
     pass
 
 def main(dirname):
-    os.system("mkdir -p build")
+    dirname = os.path.abspath(dirname)
+    if not os.path.exists("build"):
+        os.makedirs("build")
     
     case_name = None
     if len(sys.argv) == 2:
         case_name = sys.argv[1]
+
+    print("RUN case:(%s)" % case_name)
 
     for fname in os.listdir(dirname):
         if case_name != None and case_name != fname:
