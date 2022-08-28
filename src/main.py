@@ -26,8 +26,12 @@ def run_setup(dirname):
         logging.info("-" * 50)
         os.system(cmd)
 
-def run_benchmark(dirname):
+def run_benchmark(dirname, args):
     for fname in sorted(os.listdir(dirname)):
+
+        if len(args.target) > 0 and fname not in args.target:
+            continue
+
         fpath = os.path.join(dirname, fname)
         fpath = os.path.abspath(fpath)
 
@@ -66,7 +70,9 @@ def run_clean(dirname):
 def main(dirname):
     parser = argparse.ArgumentParser()
     parser.add_argument("--case_name", help="用例名称")
-    args:dict = parser.parse_args()
+    parser.add_argument("--target", nargs="*", help = "测试目标")
+
+    args = parser.parse_args()
 
     dirname = os.path.abspath(dirname)
     if not os.path.exists("build"):
@@ -87,7 +93,7 @@ def main(dirname):
 
             print("=" * 50)
             # 001_sum
-            run_benchmark(fpath)
+            run_benchmark(fpath, args)
             # 删除中间文件
             run_clean(fpath)
         else:

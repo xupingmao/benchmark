@@ -77,17 +77,41 @@ def prepare_kv_data(count:int, key_len:int, value_len:int):
 
 class ResultPrinter:
 
-    fmt = "%010s %010s %010s %010s %010s %010s %010s"
+    fmt = ""
     mem_before = ""
     mem_before_int = 0
     mem_after = ""
     mem_after_int = 0
 
     def print_head(self):
-        line = "-" * 10
-        line_wide = "-" * 15
-        print(self.fmt % ("operation", "times", "rt(ms)", "qps", "mem-before", "mem-after", "mem(used)"))
-        print(self.fmt % (line, line, line, line, line, line, line))
+        heads = [
+            ("operation", 10),
+            ("times", 10),
+            ("rt(ms)", 10),
+            ("qps", 15),
+            ("mem(before)", 11),
+            ("mem(after)", 10),
+            ("mem(used)", 10),
+        ]
+
+        fmt_list = []
+        names = []
+        lines = []
+
+        for name, width in heads:
+            fmt_list.append("%0" + str(width) + "s")
+            names.append(name)
+            lines.append("-" * width)
+
+        self.fmt = " ".join(fmt_list)
+
+        # print(self.fmt)
+        # print(names)
+        # print(lines)
+        # print(tuple(names))
+
+        print(self.fmt % tuple(names))
+        print(self.fmt % tuple(lines))
 
     def print_result(self, operation, times, total_time):
         assert times > 0
@@ -97,9 +121,9 @@ class ResultPrinter:
             qps_str = "Inf"
         else:
             qps = times / total_time
-            qps_str = "%.4f" % qps
+            qps_str = "%.5f" % qps
         
-        rt_str = "%.4f" % rt
+        rt_str = "%.5f" % rt
         
         # print(fmt % ("operation", "times", "rt", "qps"))
         

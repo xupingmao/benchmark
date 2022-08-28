@@ -1,4 +1,4 @@
-import lmdb
+import plyvel
 import os
 import sys
 import time
@@ -15,37 +15,34 @@ printer = ResultPrinter()
 class Database:
 
     def init(self):
-        self.env = lmdb.open("./tmp/lmdb", map_size=1024**3)
+        self.db = plyvel.DB("./tmp/plyvel", create_if_missing = True)
 
     def get(self, key):
         """通过key读取Value
         @param {bytes} key
         @return {bytes|None} value
         """
-        with self.env.begin() as tx:
-            value = tx.get(key.encode("utf-8"))
-            if value != None:
-                return value.decode("utf-8")
-            return None
+        value = self.db.get(key.encode("utf-8"))
+        if value != None:
+            return value.decode("utf-8")
+        return None
 
     def put(self, key, value, sync=False):
         """写入Key-Value键值对
         @param {bytes} key
         @param {bytes} value
         """
-        with self.env.begin(write=True) as tx:
-            tx.put(key.encode("utf-8"), value.encode("utf-8"))
+        self.db.put(key.encode("utf-8"), value.encode("utf-8"))
 
     def close(self):
-        self.env.close()
+        self.db.close()
 
 def init_db():
     if not os.path.exists("tmp"):
         os.makedirs("tmp")
-    
-    if os.path.exists("tmp/lmdb"):
-        shutil.rmtree("tmp/lmdb")
-        
+    if os.path.exists("tmp/plyvel"):
+        shutil.rmtree("tmp/plyvel")
+
     db = Database()
     db.init()
     return db

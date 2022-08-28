@@ -7,6 +7,7 @@ import sqlite3
 import os
 import sys
 import time
+import shutil
 
 # print(os.path.abspath("."))
 sys.path.append("./src")
@@ -47,6 +48,9 @@ class Database:
 def init_db():
     if not os.path.exists("tmp"):
         os.makedirs("tmp")
+    if os.path.exists("tmp/test.db"):
+        os.remove("tmp/test.db")
+        
     db = Database()
     db.init()
     return db
