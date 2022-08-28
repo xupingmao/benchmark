@@ -6,6 +6,7 @@
 import logging
 import os
 import sys
+import argparse
 
 # 配置日志模块
 logging.basicConfig(level=logging.DEBUG,
@@ -63,13 +64,15 @@ def run_clean(dirname):
     pass
 
 def main(dirname):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--case_name", help="用例名称")
+    args:dict = parser.parse_args()
+
     dirname = os.path.abspath(dirname)
     if not os.path.exists("build"):
         os.makedirs("build")
     
-    case_name = None
-    if len(sys.argv) == 2:
-        case_name = sys.argv[1]
+    case_name = args.case_name
 
     print("RUN case:(%s)" % case_name)
 

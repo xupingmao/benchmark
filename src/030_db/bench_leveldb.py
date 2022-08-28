@@ -14,7 +14,7 @@ import time
 sys.path.append("./src")
 # print(sys.path)
 
-from utils.db_utils import rand_str, mem_deco
+from utils.db_utils import rand_str, mem_deco, prepare_kv_data
 
 def init_db():
     if not os.path.exists("tmp"):
@@ -22,15 +22,15 @@ def init_db():
 
     return leveldb.LevelDB("tmp/leveldb")
 
-
 @mem_deco("Test insert")
 def test_insert(times, key_len = 20, value_len = 1024):
     db = init_db()
+
+    data = prepare_kv_data(times, key_len, value_len)
+
     start_time = time.time()
 
-    for i in range(times):
-        key = rand_str(key_len)
-        value = rand_str(value_len)
+    for key, value in data:
         db.Put(key.encode("utf-8"), value.encode("utf-8"))
 
     cost_time = time.time() - start_time
@@ -42,9 +42,10 @@ def test_insert(times, key_len = 20, value_len = 1024):
 @mem_deco("Test query")
 def test_query(times, key_len = 20):
     db = init_db()
+    data = prepare_kv_data(times, 20, 1)
 
     start_time = time.time()
-    for i in range(times):
+    for key, _ in data:
         key = rand_str(key_len)
         try:
             value = db.Get(key.encode("utf-8"))
