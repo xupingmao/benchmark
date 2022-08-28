@@ -3,7 +3,7 @@
  * @email        : 578749341@qq.com
  * @Date         : 2022-08-28 22:48:48
  * @LastEditors  : xupingmao
- * @LastEditTime : 2022-08-28 23:50:55
+ * @LastEditTime : 2022-08-28 23:53:05
  * @FilePath     : /xnoted:/projects/benchmark/src/030_db/report_02.md
  * @Description  : 描述
 -->
@@ -15,6 +15,12 @@
 CPU: 11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz   2.80 GHz
 MEM: 16.0 GB (15.8 GB 可用) 3200MHz
 测试时间: 2022/08/28
+```
+
+安装类库
+```
+python3 -m pip install lmdb
+python3 -m pip install plyvel-win32
 ```
 
 # 测试结果
