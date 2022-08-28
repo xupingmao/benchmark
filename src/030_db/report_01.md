@@ -4,6 +4,7 @@
 MacBook Air (13-inch, Early 2015)
 1.6 GHz 双核Intel Core i5
 4 GB 1600 MHz DDR3
+测试时间: 2022/03/16
 ```
 
 # 测试结果
