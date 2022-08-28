@@ -3,7 +3,7 @@
  * @email        : 578749341@qq.com
  * @Date         : 2022-08-28 22:48:48
  * @LastEditors  : xupingmao
- * @LastEditTime : 2022-08-28 23:09:17
+ * @LastEditTime : 2022-08-28 23:13:29
  * @FilePath     : /xnoted:/projects/benchmark/src/030_db/report_02.md
  * @Description  : 描述
 -->
@@ -14,6 +14,7 @@
 操作系统: Win11
 CPU: 11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz   2.80 GHz
 MEM: 16.0 GB (15.8 GB 可用) 3200MHz
+测试时间: 2022/08/28
 ```
 
 # 测试结果
