@@ -7,3 +7,5 @@ tmp/
 
 # cython temp files
 pyx_*.c
+
+**__pycache__

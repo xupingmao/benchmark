@@ -5,9 +5,15 @@
 # @filename pyx_fib2.py
 
 import pyximport
+import os
 
 pyximport.install()
+old_dirname = os.getcwd()
+dirname = os.path.dirname(__file__)
+os.chdir(dirname)
 
-import fib2
-
-fib2.run()
+try:
+    import fib2
+    fib2.run()
+except:
+    os.chdir(old_dirname)
